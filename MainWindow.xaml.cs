@@ -12,21 +12,21 @@ namespace CybersecurityChatbot.Views
 {
     public partial class MainWindow : Window
     {
-        // ── Services and engines ─────────────────────────────────────────────
+        // Services and engines
         private readonly ResponseEngine _responseEngine = new();
         private readonly NLPEngine _nlp = new();
         private readonly TaskDatabase _taskDb = new();
         private readonly QuizService _quiz = new();
         private readonly ActivityLog _log = new();
 
-        // ── Session state ────────────────────────────────────────────────────
+        // Session state
         private ChatUser? _user;
         private bool _nameCollected = false;
         private bool _awaitingReminderConfirmation = false;
         private CyberTask? _pendingTaskForReminder = null;
         private bool _showFullLog = false;
 
-        // ── Brushes ──────────────────────────────────────────────────────────
+        // Brushes
         private static readonly SolidColorBrush BrushBgUser   = new(Color.FromRgb(0xF9, 0x4E, 0x15));
         private static readonly SolidColorBrush BrushBgBot    = new(Color.FromRgb(0x1E, 0x21, 0x22));
         private static readonly SolidColorBrush BrushBgCard   = new(Color.FromRgb(0x18, 0x1A, 0x1B));
@@ -47,9 +47,7 @@ namespace CybersecurityChatbot.Views
             Loaded += MainWindow_Loaded;
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  STARTUP
-        // ═══════════════════════════════════════════════════════════════════════
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 1. Voice greeting (from Part 1)
@@ -82,9 +80,7 @@ namespace CybersecurityChatbot.Views
             DbStatusDot.Fill = _taskDb.IsUsingFallback ? BrushYellow : BrushGreen;
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  MAIN INPUT HANDLER
-        // ═══════════════════════════════════════════════════════════════════════
         private void Send()
         {
             string input = InputBox.Text.Trim();
@@ -121,9 +117,7 @@ namespace CybersecurityChatbot.Views
             HandleIntent(nlp, input);
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  INTENT HANDLING (NLP-driven routing)
-        // ═══════════════════════════════════════════════════════════════════════
         private void HandleIntent(NlpResult nlp, string originalInput)
         {
             switch (nlp.Intent)
@@ -171,10 +165,7 @@ namespace CybersecurityChatbot.Views
                     break;
             }
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  TASK ASSISTANT (Task 1)
-        // ═══════════════════════════════════════════════════════════════════════
         private void HandleAddTask(NlpResult nlp)
         {
             string title = nlp.ExtractedText ?? "Untitled task";
@@ -339,9 +330,7 @@ namespace CybersecurityChatbot.Views
             return $"Cybersecurity task: {title}.";
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  QUIZ MINI-GAME (Task 2)
-        // ═══════════════════════════════════════════════════════════════════════
         private void HandleStartQuiz()
         {
             _log.Log(ActivityType.Quiz, "Quiz started");
@@ -451,9 +440,7 @@ namespace CybersecurityChatbot.Views
             AddBotBubble("Quiz complete! " + feedback, MessageType.Quiz);
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  ACTIVITY LOG (Task 4)
-        // ═══════════════════════════════════════════════════════════════════════
         private void HandleShowActivityLog()
         {
             _log.Log(ActivityType.NLP, "User requested activity log");
@@ -585,10 +572,7 @@ namespace CybersecurityChatbot.Views
                 Child = grid
             };
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  TOPIC RESPONSES (Part 1/2 fallback)
-        // ═══════════════════════════════════════════════════════════════════════
         private void HandleTopicResponse(string input)
         {
             // Follow-up triggers route to a topic-specific tip
@@ -629,10 +613,7 @@ namespace CybersecurityChatbot.Views
             SendButton.IsEnabled = false;
             InputPlaceholder.Text = "Session ended. Thank you for chatting!";
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  NAME COLLECTION
-        // ═══════════════════════════════════════════════════════════════════════
         private void CollectName(string input)
         {
             string name = System.Globalization.CultureInfo.CurrentCulture
@@ -665,9 +646,7 @@ namespace CybersecurityChatbot.Views
             _log.Log(ActivityType.System, $"User '{_user.Name}' joined the session");
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  TASK LIST UI (Tasks tab)
-        // ═══════════════════════════════════════════════════════════════════════
         private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
             string title = TaskTitleInput.Text.Trim();
@@ -825,10 +804,7 @@ namespace CybersecurityChatbot.Views
                 Child = grid
             };
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  TAB SWITCHING
-        // ═══════════════════════════════════════════════════════════════════════
         private void TabChat_Click(object sender, RoutedEventArgs e) => SwitchToChatView();
         private void TabTasks_Click(object sender, RoutedEventArgs e) { SwitchToTasksView(); RefreshTaskList(); }
         private void TabQuiz_Click(object sender, RoutedEventArgs e) => SwitchToQuizView();
@@ -882,10 +858,7 @@ namespace CybersecurityChatbot.Views
             TabQuiz.Style = (TabQuiz == activeTab) ? active : normal;
             TabLog.Style = (TabLog == activeTab) ? active : normal;
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  CHAT BUBBLE RENDERING
-        // ═══════════════════════════════════════════════════════════════════════
         private void AddUserBubble(string text)
         {
             var container = new Grid { Margin = new Thickness(0, 4, 0, 4) };
@@ -1001,10 +974,7 @@ namespace CybersecurityChatbot.Views
                 ChatScrollViewer?.ScrollToEnd();
             });
         }
-
-        // ═══════════════════════════════════════════════════════════════════════
         //  SIDEBAR UPDATES
-        // ═══════════════════════════════════════════════════════════════════════
         private void UpdateSidebar()
         {
             if (_user == null) return;
@@ -1029,9 +999,8 @@ namespace CybersecurityChatbot.Views
             };
         }
 
-        // ═══════════════════════════════════════════════════════════════════════
         //  EVENT HANDLERS
-        // ═══════════════════════════════════════════════════════════════════════
+
         private void SendButton_Click(object sender, RoutedEventArgs e) => Send();
 
         private void InputBox_KeyDown(object sender, KeyEventArgs e)
