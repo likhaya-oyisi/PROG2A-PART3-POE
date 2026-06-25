@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ═════════════════════════ SIDEBAR ═════════════════════════ -->
+        <!--  SIDEBAR  -->
         <Border Grid.Column="0" Background="{StaticResource BgPanel}"
                 BorderBrush="{StaticResource BgCard}" BorderThickness="0,0,1,0">
             <Grid>
@@ -148,7 +148,7 @@
             </Grid>
         </Border>
 
-        <!-- ═════════════════════════ MAIN AREA ═════════════════════════ -->
+        <!--  MAIN AREA  -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -181,7 +181,7 @@
                 </Grid>
             </Border>
 
-            <!-- ─── View 1: CHAT ─── -->
+            <!--  View 1: CHAT  -->
             <Grid x:Name="ChatView" Grid.Row="1" Visibility="Visible">
                 <ScrollViewer x:Name="ChatScrollViewer" VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled" Padding="0,8,6,8">
@@ -189,7 +189,7 @@
                 </ScrollViewer>
             </Grid>
 
-            <!-- ─── View 2: TASKS ─── -->
+            <!--  View 2: TASKS  -->
             <Grid x:Name="TasksView" Grid.Row="1" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -262,7 +262,7 @@
                 </ScrollViewer>
             </Grid>
 
-            <!-- ─── View 3: QUIZ ─── -->
+            <!--  View 3: QUIZ  -->
             <Grid x:Name="QuizView" Grid.Row="1" Visibility="Collapsed">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20,24,12">
                     <StackPanel>
@@ -347,7 +347,7 @@
                 </ScrollViewer>
             </Grid>
 
-            <!-- ─── View 4: ACTIVITY LOG ─── -->
+            <!--  View 4: ACTIVITY LOG  -->
             <Grid x:Name="LogView" Grid.Row="1" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
