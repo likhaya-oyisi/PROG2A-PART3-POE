@@ -21,7 +21,7 @@ namespace CybersecurityChatbot.Database
         public bool IsUsingFallback => _useFallback;
         public string ConnectionStatus { get; private set; } = "Not initialised";
 
-        // ── Initialisation ────────────────────────────────────────────────────
+        // Initialisation
         public void Initialise()
         {
             try
@@ -66,7 +66,7 @@ namespace CybersecurityChatbot.Database
             }
         }
 
-        // ── CRUD operations ───────────────────────────────────────────────────
+        // CRUD operations
         public CyberTask AddTask(string title, string description, DateTime? reminderDate)
         {
             var task = new CyberTask
