@@ -32,7 +32,7 @@ namespace CybersecurityChatbot.Helpers
     /// </summary>
     public class NLPEngine
     {
-        // ── Intent keyword maps (each maps to phrasings users might say) ──────
+        // Intent keyword maps (each maps to phrasings users might say) 
         private static readonly Dictionary<Intent, string[]> _intentKeywords = new()
         {
             {
@@ -105,7 +105,7 @@ namespace CybersecurityChatbot.Helpers
 
             string lower = input.ToLower().Trim();
 
-            // ── Check for task management intents first (most specific) ────
+            // ── Check for task management intents first (most specific)
             // Note: order matters - AddTask before SetReminder because "remind me to X" is also a task
             foreach (Intent intent in new[] { Intent.AddTask, Intent.ShowTasks, Intent.CompleteTask,
                                               Intent.DeleteTask, Intent.StartQuiz,
@@ -124,7 +124,7 @@ namespace CybersecurityChatbot.Helpers
                 }
             }
 
-            // ── Cybersecurity topic detection (delegated to ResponseEngine later) ──
+            // Cybersecurity topic detection (delegated to ResponseEngine later)
             if (ContainsAny(lower, "phish", "scam", "password", "passphrase", "privacy", "popia",
                             "malware", "virus", "ransomware", "2fa", "two factor", "authenticator",
                             "social engineering", "vpn", "brows", "https", "purpose", "how are you"))
@@ -135,7 +135,7 @@ namespace CybersecurityChatbot.Helpers
             return new NlpResult(Intent.Unknown);
         }
 
-        // ── Build result with entity extraction based on intent ───────────────
+        // Build result with entity extraction based on intent
         private NlpResult BuildResult(Intent intent, string originalInput, string lower)
         {
             switch (intent)
@@ -159,7 +159,7 @@ namespace CybersecurityChatbot.Helpers
             }
         }
 
-        // ── Extract task title from natural-language input ────────────────────
+        // Extract task title from natural-language input
         private string ExtractTaskTitle(string original, string lower)
         {
             // Strip leading command phrases like "add task -", "remind me to", etc.
@@ -201,7 +201,7 @@ namespace CybersecurityChatbot.Helpers
             return string.IsNullOrEmpty(cleaned) ? "Untitled task" : cleaned;
         }
 
-        // ── Extract reminder date from natural-language time expressions ──────
+        // Extract reminder date from natural-language time expressions
         public DateTime? ExtractReminderDate(string input)
         {
             string lower = input.ToLower();
@@ -231,7 +231,7 @@ namespace CybersecurityChatbot.Helpers
             return null;
         }
 
-        // ── Extract task number for complete/delete commands ──────────────────
+        // Extract task number for complete/delete commands
         private int? ExtractTaskNumber(string input)
         {
             var match = Regex.Match(input, @"\d+");
